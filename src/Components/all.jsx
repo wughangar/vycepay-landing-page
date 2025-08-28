@@ -167,7 +167,7 @@ const Motto = () => {
       icon: <AnywhereIcon />, 
       title: "Anywhere", 
       description: "Global reach, local trust",
-      image: "/images/anywhere.jpg"
+      image: "/anywhere.png"
     }
   ];
 
@@ -268,9 +268,14 @@ const Solution = () => {
         </div>
 
         {/* Main Solution Image */}
-        <div className="aspect-[16/9] bg-gray-100 rounded-3xl mb-16 flex items-center justify-center">
-          <span className="text-gray-500 text-lg font-light">Solution Demo Image/Video</span>
+        <div className="aspect-[16/9] rounded-3xl mb-16 overflow-hidden">
+          <img 
+            src="/solution.jpg"
+            alt="Solution Demo"
+            className="w-full h-full object-cover"
+          />
         </div>
+
 
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
@@ -295,19 +300,23 @@ const Features = () => {
   const features = [
     {
       title: "Unwavering Security",
-      description: "Bank-grade encryption with proactive compliance and transparent operations"
+      description: "Bank-grade encryption with proactive compliance and transparent operations",
+      image: "/security.jpg"
     },
     {
       title: "Cost Leadership", 
-      description: "Ultra-low fees that significantly undercut traditional and digital competitors"
+      description: "Ultra-low fees that significantly undercut traditional and digital competitors",
+      image: "/cost.jpg"
     },
     {
       title: "Strategic Integration",
-      description: "Seamless connectivity with existing systems like M-Pesa and future PAPSS"
+      description: "Seamless connectivity with existing systems like M-Pesa and future PAPSS",
+      image: "/strategic.jpg"
     },
     {
       title: "Pan-African Vision",
-      description: "Building financial infrastructure for continent-wide economic growth"
+      description: "Building financial infrastructure for continent-wide economic growth",
+      image: "/pan-africa.jpg"
     }
   ];
 
@@ -323,8 +332,12 @@ const Features = () => {
         <div className="grid md:grid-cols-2 gap-12">
           {features.map((feature, index) => (
             <div key={index} className="group">
-              <div className="aspect-[16/10] bg-gray-200 rounded-3xl mb-8 overflow-hidden flex items-center justify-center">
-                <span className="text-gray-500 font-light">{feature.title} Visual</span>
+              <div className="aspect-[16/10] rounded-3xl mb-8 overflow-hidden">
+                <img 
+                  src={feature.image} 
+                  alt={feature.title} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
               </div>
               <h3 className="text-3xl font-light text-gray-900 mb-4">{feature.title}</h3>
               <p className="text-xl text-gray-600 font-light leading-relaxed">
@@ -337,6 +350,7 @@ const Features = () => {
     </section>
   );
 };
+
 
 // Roadmap Section with Timeline Images
 const Roadmap = () => {
