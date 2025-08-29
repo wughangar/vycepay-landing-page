@@ -1,5 +1,8 @@
 // Footer Component
 const Footer = () => {
+  // Get the current year dynamically
+  const currentYear = new Date().getFullYear();
+  
   return (
     <footer className="py-16 bg-gray-50 border-t border-gray-100">
       <div className="max-w-6xl mx-auto px-6">
@@ -39,7 +42,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-200 mt-12 pt-8 text-center text-gray-500 font-light">
-          © 2024 VycePay. All rights reserved.
+          © {currentYear} VycePay. All rights reserved.
         </div>
       </div>
     </footer>
