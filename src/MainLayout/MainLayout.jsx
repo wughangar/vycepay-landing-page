@@ -1,39 +1,29 @@
-import { BrowserRouter, Route, Routes } from "react-router";
-import Navbar from './../Components/Navbar/Navbar';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navbar from '../Components/Global/Navbar/Navbar';
 import Home from "../Pages/Home/Home";
-import Auth from "../Pages/Auth/Auth";
-import Login from "../Pages/Auth/Login/Login";
-import Register from "../Pages/Auth/Register/Register";
+import About from "../Pages/About/About";
+import Contact from "../Pages/Contact/Contact";
 import Error from "../Pages/Error/Error";
-import AuthCheck from "../AuthCheck/AuthCheck";
-import Footer from "../Components/Footer/Footer";
-
-
+import Footer from "../Components/Global/Footer/Footer";
 
 const MainLayout = () => {
-    return (
+  return (
+    <BrowserRouter>
+      {/* Navbar */}
+      <Navbar />
 
-        <BrowserRouter>
-            {/* navbar  */}
-          
-            <Routes>
-                <Route path="/" element={
-                    <AuthCheck>
-                        <Home/>
-                    </AuthCheck>
-                } />
-                <Route path="auth" element={<Auth/>}>
-                    <Route path="login" element={<Login/>} />
-                    <Route path="register" element={<Register/>} />
-                </Route>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
 
-                {/* not found routes  */}
-                <Route path="*" element={<Error/> } />
-            </Routes>
+        {/* Catch-all route */}
+        <Route path="*" element={<Error />} />
+      </Routes>
 
-        </BrowserRouter>
-
-    );
+      <Footer />
+    </BrowserRouter>
+  );
 };
 
 export default MainLayout;
