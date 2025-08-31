@@ -5,7 +5,7 @@ import Motto from './../../Components/HomeComponents/Motto/Motto';
 import Problem from './../../Components/HomeComponents/Problem/Problem';
 import Solution from './../../Components/HomeComponents/Solution/Solution'; 
 import Features from '../../Components/HomeComponents/Features/Features';
-import Roadmap from './../../Components/HomeComponents/Roadmap/Roadmap';
+import Roadmap from '../../Components/AboutComponents/Roadmap/Roadmap';
 import Market from './../../Components/HomeComponents/Market/Market';
 import CTA from './../../Components/HomeComponents/CTA/CTA';    
 
