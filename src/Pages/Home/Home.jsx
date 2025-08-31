@@ -50,10 +50,6 @@ const Home = () => {
                 <Market></Market>
             </div>
 
-            <div className="w-full ">
-                <CTA></CTA>
-            </div>
-
         </div>
     );
 };
