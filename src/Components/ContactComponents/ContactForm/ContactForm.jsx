@@ -40,7 +40,7 @@ const ContactForm = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-200 rounded-2xl 
                              focus:ring-2 focus:ring-gray-900 focus:border-transparent 
-                             transition-all placeholder-black text-black"
+                             transition-all placeholder-gray-400 text-black"
                   placeholder="Your name"
                   required
                 />
@@ -58,7 +58,7 @@ const ContactForm = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-200 rounded-2xl 
                              focus:ring-2 focus:ring-gray-900 focus:border-transparent 
-                             transition-all placeholder-black text-black"
+                             transition-all placeholder-gray-400 text-black"
                   placeholder="your@email.com"
                   required
                 />
@@ -98,7 +98,7 @@ const ContactForm = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-200 rounded-2xl 
                            focus:ring-2 focus:ring-gray-900 focus:border-transparent 
-                           transition-all placeholder-black text-black"
+                           transition-all placeholder-gray-400 text-black"
                 placeholder="How can we help you?"
                 required
               />
@@ -116,7 +116,7 @@ const ContactForm = () => {
                 rows="6"
                 className="w-full px-4 py-3 border border-gray-200 rounded-2xl 
                            focus:ring-2 focus:ring-gray-900 focus:border-transparent 
-                           transition-all resize-none placeholder-black text-black"
+                           transition-all resize-none placeholder-gray-400 text-black"
                 placeholder="Tell us more about your inquiry..."
                 required
               ></textarea>
