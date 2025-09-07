@@ -4,6 +4,7 @@ const AboutHero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Hero Banner Image */}
       <div className="absolute inset-0">
+        
         <img
           src="/about-banner.jpg"
           alt="About Hero Banner"
