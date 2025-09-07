@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 const ContactForm = () => {
+  // Get environment variables with fallbacks - safer approach
+  const serviceId = (typeof process !== 'undefined' && process.env?.REACT_APP_EMAILJS_SERVICE_ID) || 'service_exxx4wz';
+  const templateId = (typeof process !== 'undefined' && process.env?.REACT_APP_EMAILJS_TEMPLATE_ID) || 'template_la7876b';
+  const publicKey = (typeof process !== 'undefined' && process.env?.REACT_APP_EMAILJS_PUBLIC_KEY) || 'N8iVyY-TQeyU8EGkc';
+  const recipientEmail = (typeof process !== 'undefined' && process.env?.REACT_APP_RECIPIENT_EMAIL) || '';
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -8,11 +15,78 @@ const ContactForm = () => {
     message: '',
     inquiryType: 'general'
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setSubmitStatus('');
+
+    // Debug environment variables
+    console.log('Environment variables:', {
+      serviceId,
+      templateId,
+      publicKey,
+      recipientEmail,
+      processAvailable: typeof process !== 'undefined'
+    });
+
+    try {
+      // Using environment variables for EmailJS credentials
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          to_email: recipientEmail,
+          time: new Date().toLocaleString(),
+message: `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ CONTACT FORM SUBMISSION
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ Contact Information:
+   • Name: ${formData.name}
+   • Email: ${formData.email}
+
+ Inquiry Details:
+   • Type: ${formData.inquiryType.charAt(0).toUpperCase() + formData.inquiryType.slice(1)}
+   • Subject: ${formData.subject}
+
+ Message:
+${formData.message}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📅 Submitted: ${new Date().toLocaleString()}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          `.trim(),
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: `[${formData.inquiryType.toUpperCase()}] ${formData.subject}`,
+        },
+        publicKey
+      );
+
+      if (result.text === 'OK') {
+        setSubmitStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+          inquiryType: 'general'
+        });
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -26,7 +100,23 @@ const ContactForm = () => {
     <section className="py-20 bg-gray-50">
       <div className="max-w-4xl mx-auto px-6">
         <div className="bg-white rounded-3xl p-12">
-          <form onSubmit={handleSubmit} className="space-y-8">
+          {submitStatus === 'success' && (
+            <div className="mb-8 p-4 bg-green-50 border border-green-200 rounded-2xl">
+              <p className="text-green-800 font-medium">
+                ✅ Message sent successfully! We'll get back to you soon.
+              </p>
+            </div>
+          )}
+          
+          {submitStatus === 'error' && (
+            <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-2xl">
+              <p className="text-red-800 font-medium">
+                ❌ Failed to send message. Please try again.
+              </p>
+            </div>
+          )}
+
+          <div className="space-y-8">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-900 mb-3">
@@ -42,7 +132,7 @@ const ContactForm = () => {
                              focus:ring-2 focus:ring-gray-900 focus:border-transparent 
                              transition-all placeholder-gray-400 text-black"
                   placeholder="Your name"
-                  required
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -60,7 +150,7 @@ const ContactForm = () => {
                              focus:ring-2 focus:ring-gray-900 focus:border-transparent 
                              transition-all placeholder-gray-400 text-black"
                   placeholder="your@email.com"
-                  required
+                  disabled={isSubmitting}
                 />
               </div>
             </div>
@@ -77,6 +167,7 @@ const ContactForm = () => {
                 className="w-full px-4 py-3 border border-gray-200 rounded-2xl 
                            focus:ring-2 focus:ring-gray-900 focus:border-transparent 
                            transition-all text-black"
+                disabled={isSubmitting}
               >
                 <option value="general">General Inquiry</option>
                 <option value="partnership">Partnership</option>
@@ -100,7 +191,7 @@ const ContactForm = () => {
                            focus:ring-2 focus:ring-gray-900 focus:border-transparent 
                            transition-all placeholder-gray-400 text-black"
                 placeholder="How can we help you?"
-                required
+                disabled={isSubmitting}
               />
             </div>
 
@@ -118,19 +209,24 @@ const ContactForm = () => {
                            focus:ring-2 focus:ring-gray-900 focus:border-transparent 
                            transition-all resize-none placeholder-gray-400 text-black"
                 placeholder="Tell us more about your inquiry..."
-                required
+                disabled={isSubmitting}
               ></textarea>
             </div>
 
             <div className="text-center">
               <button
-                type="submit"
-                className="bg-gray-900 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gray-800 transition-all"
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className={`px-8 py-4 rounded-full text-lg font-medium transition-all ${
+                  isSubmitting 
+                    ? 'bg-gray-400 cursor-not-allowed text-white'
+                    : 'bg-gray-900 text-white hover:bg-gray-800'
+                }`}
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </section>
